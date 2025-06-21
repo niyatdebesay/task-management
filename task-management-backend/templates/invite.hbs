@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Collaboration Invitation</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --background: #f3f4f6;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+        
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            font-size: 28px;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 16px 0;
+            text-align: left;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 32px 0;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+        
+        .button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+        }
+        
+        .info-box {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
+            text-align: center;
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">TaskManager</div>
+        </div>
+        
+        <h1>Welcome to {{projectName}}</h1>
+        
+        <p>Hello,</p>
+        
+        <p>You've been invited to collaborate on <span class="highlight">{{projectName}}</span>. Join our team to streamline project workflows, track tasks, and collaborate effectively.</p>
+        
+        <div class="info-box">
+            <p style="margin: 0;"> Get ready to:</p>
+            <ul style="margin-top: 8px;">
+                <li>Collaborate with team members</li>
+                <li>Track project progress</li>
+                <li>Manage tasks efficiently</li>
+                <li>Stay updated in real-time</li>
+            </ul>
+        </div>
+        
+<div class="button-container">
+    <a href="{{baseUrl}}/invite?token={{inviteToken}}" 
+       style="display: inline-block; padding: 12px 32px; font-size: 16px; font-weight: 600; color: #ffffff; 
+              background-color: #2563eb; text-decoration: none; border-radius: 8px; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">
+        Join Project
+    </a>
+</div>
+</body>
+</html>
