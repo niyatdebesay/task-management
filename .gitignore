@@ -1,0 +1,8 @@
+# Ignore environment files
+.env
+.env.*
+
+# Ignore node_modules for both frontend and backend
+node_modules/
+task-management-frontend/node_modules/
+task-management-backend/node_modules/
