@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useParams } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 import ProtectedRoute from "@/components/protected-route"
@@ -17,13 +17,7 @@ export default function ProjectPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
 
-  useEffect(() => {
-    if (params.id && user) {
-      fetchProject()
-    }
-  }, [params.id, user])
-
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       const data = await apiClient.getProject(params.id as string)
       setProject(data)
@@ -32,7 +26,13 @@ export default function ProjectPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [params.id])
+
+  useEffect(() => {
+    if (params.id && user) {
+      fetchProject()
+    }
+  }, [params.id, user, fetchProject])
 
   if (isLoading) {
     return (
@@ -63,7 +63,7 @@ export default function ProjectPage() {
     <ProtectedRoute>
       <DashboardLayout>
         <div className="h-full flex flex-col">
-          <ProjectHeader project={project} onProjectUpdate={fetchProject} />
+          <ProjectHeader project={project} />
           <div className="flex-1 overflow-hidden">
             <KanbanBoard project={project} onTaskUpdate={fetchProject} />
           </div>

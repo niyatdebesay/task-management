@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -20,11 +20,7 @@ export default function FileAttachments({ taskId, onAttachmentsUpdate }: FileAtt
   const [isLoading, setIsLoading] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    fetchAttachments()
-  }, [taskId])
-
-  const fetchAttachments = async () => {
+  const fetchAttachments = useCallback(async () => {
     try {
       const data = await apiClient.getTaskFiles(taskId)
       setAttachments(data)
@@ -33,7 +29,11 @@ export default function FileAttachments({ taskId, onAttachmentsUpdate }: FileAtt
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [taskId])
+
+  useEffect(() => {
+    fetchAttachments()
+  }, [taskId, fetchAttachments])
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes"

@@ -12,10 +12,9 @@ import InviteUserDialog from "./invite-user-dialog"
 
 interface ProjectHeaderProps {
   project: Project
-  onProjectUpdate: () => void
 }
 
-export default function ProjectHeader({ project, onProjectUpdate }: ProjectHeaderProps) {
+export default function ProjectHeader({ project }: ProjectHeaderProps) {
   const [showInviteDialog, setShowInviteDialog] = useState(false)
 
   const getPriorityColor = (priority?: string) => {
@@ -203,7 +202,6 @@ export default function ProjectHeader({ project, onProjectUpdate }: ProjectHeade
           open={showInviteDialog}
           onOpenChange={setShowInviteDialog}
           projectId={project._id}
-          onInviteSent={onProjectUpdate}
         />
       </div>
     </TooltipProvider>

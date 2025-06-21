@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useAuth } from "@/contexts/auth-context"
 import ProtectedRoute from "@/components/protected-route"
 import DashboardLayout from "@/components/dashboard-layout"
@@ -41,13 +41,7 @@ export default function ProjectsPage() {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
-  useEffect(() => {
-    if (user) {
-      fetchProjects()
-    }
-  }, [user])
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       const data = await apiClient.getUserProjects(user!._id)
       setProjects(data)
@@ -56,7 +50,13 @@ export default function ProjectsPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      fetchProjects()
+    }
+  }, [user, fetchProjects])
 
   const handleDeleteProject = async (projectId: string) => {
     if (!confirm("Are you sure you want to delete this project? This action cannot be undone.")) return

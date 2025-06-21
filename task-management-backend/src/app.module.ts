@@ -20,23 +20,23 @@ const URI = process.env.DATABASE_URI||"mongodb+srv://niyatdebesay26:NiyatDebesay
       isGlobal: true, 
       envFilePath: '.env', 
     }),
-    MailerModule.forRoot({
-      transport:{
-        port:465, 
-        host:'smtp.gmail.com',
-        auth:{
-          user:"niyatdebesay26@gmail.com",
-          pass:'uqso paak exuy ghse'
-        }
-      },
-      template: {
-        dir: join(__dirname, '../templates'),
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true
-        }
-      }
-    }),
+MailerModule.forRoot({
+  transport: {
+    port: Number(process.env.SMTP_PORT), 
+    host: process.env.SMTP_HOST,         
+    auth: {
+      user: process.env.SMTP_USER,       
+      pass: process.env.SMTP_PASS        
+    }
+  },
+  template: {
+    dir: join(__dirname, '../templates'),
+    adapter: new HandlebarsAdapter(),
+    options: {
+      strict: true
+    }
+  }
+}),
     EventEmitterModule.forRoot(),
     MongooseModule.forRoot(URI
       

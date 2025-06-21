@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,11 +21,7 @@ export default function TaskComments({ taskId, onCommentsUpdate }: TaskCommentsP
   const [comments, setComments] = useState<Comment[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    fetchComments()
-  }, [taskId])
-
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const data = await apiClient.getTaskComments(taskId)
       setComments(data)
@@ -34,7 +30,11 @@ export default function TaskComments({ taskId, onCommentsUpdate }: TaskCommentsP
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [taskId])
+
+  useEffect(() => {
+    fetchComments()
+  }, [taskId, fetchComments])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

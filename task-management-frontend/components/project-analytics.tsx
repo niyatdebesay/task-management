@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -15,11 +15,7 @@ export default function ProjectAnalyticsComponent({ projectId }: ProjectAnalytic
   const [analytics, setAnalytics] = useState<ProjectAnalytics | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    fetchAnalytics()
-  }, [projectId])
-
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
       const data = await apiClient.getProjectAnalytics(projectId)
       setAnalytics(data)
@@ -39,26 +35,22 @@ export default function ProjectAnalyticsComponent({ projectId }: ProjectAnalytic
           medium: 12,
           low: 5,
         },
-        teamProductivity: [
-          {
-            userId: "1",
-            username: "john_doe",
-            tasksCompleted: 8,
-            tasksInProgress: 3,
-            averageCompletionTime: 24,
-          },
-        ],
+        teamProductivity: [],
         timeTracking: {
-          totalHours: 120,
-          thisWeekHours: 32,
-          averageTaskTime: 8,
+          totalHours: 0,
+          thisWeekHours: 0,
+          averageTaskTime: 0,
         },
         completionTrend: [],
       })
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [projectId])
+
+  useEffect(() => {
+    fetchAnalytics()
+  }, [projectId, fetchAnalytics])
 
   if (isLoading) {
     return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import ProtectedRoute from "@/components/protected-route"
 import DashboardLayout from "@/components/dashboard-layout"
 import { useAuth } from "@/contexts/auth-context"
@@ -20,13 +20,8 @@ export default function DashboardPage() {
   })
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    if (user) {
-      fetchDashboardData()
-    }
-  }, [user])
-
-  const fetchDashboardData = async () => {
+  // Move fetchDashboardData above useEffect
+  const fetchDashboardData = useCallback(async () => {
     try {
       const [tasksData, projectsData] = await Promise.all([
         apiClient.getUserTasks(user!._id),
@@ -39,7 +34,13 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      fetchDashboardData()
+    }
+  }, [user, fetchDashboardData])
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {

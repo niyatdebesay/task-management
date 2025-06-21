@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -20,9 +20,19 @@ export default function TimeTracker({ taskId, userId }: TimeTrackerProps) {
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
+  const fetchTimeEntries = useCallback(async () => {
+    try {
+      const entries = await apiClient.getTaskTimeEntries(taskId)
+      setTimeEntries(entries)
+      setTotalTime(entries.reduce((sum, entry) => sum + entry.duration, 0))
+    } catch (error) {
+      console.error("Failed to fetch time entries:", error)
+    }
+  }, [taskId])
+
   useEffect(() => {
     fetchTimeEntries()
-  }, [taskId])
+  }, [taskId, fetchTimeEntries])
 
   useEffect(() => {
     let interval: NodeJS.Timeout
@@ -39,16 +49,6 @@ export default function TimeTracker({ taskId, userId }: TimeTrackerProps) {
     const minutes = Math.floor((seconds % 3600) / 60)
     const secs = seconds % 60
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
-  }
-
-  const fetchTimeEntries = async () => {
-    try {
-      const entries = await apiClient.getTaskTimeEntries(taskId)
-      setTimeEntries(entries)
-      setTotalTime(entries.reduce((sum, entry) => sum + entry.duration, 0))
-    } catch (error) {
-      console.error("Failed to fetch time entries:", error)
-    }
   }
 
   const startTracking = async () => {

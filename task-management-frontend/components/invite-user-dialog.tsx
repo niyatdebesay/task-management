@@ -22,10 +22,9 @@ interface InviteUserDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   projectId: string
-  onInviteSent: () => void
 }
 
-export default function InviteUserDialog({ open, onOpenChange, projectId, onInviteSent }: InviteUserDialogProps) {
+export default function InviteUserDialog({ open, onOpenChange, projectId }: InviteUserDialogProps) {
   const [email, setEmail] = useState("")
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
